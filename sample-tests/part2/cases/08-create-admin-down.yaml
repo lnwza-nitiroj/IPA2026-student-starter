@@ -1,0 +1,13 @@
+fixture: 08-create-admin-down.yaml
+
+expected:
+  status: ok
+  result: planned
+  operation: create
+  changes:
+    ipv4:
+      to: 198.51.100.8/32
+    description:
+      to: created-down
+    admin_state:
+      to: down

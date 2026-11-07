@@ -1,0 +1,11 @@
+desired:
+  name: Loopback4242
+  ipv4: 172.16.42.42/32
+  description: Lab loopback
+  admin_state: down
+
+current:
+  name: Loopback4242
+  ipv4: 172.16.42.42/32
+  description: Lab loopback
+  admin_state: up

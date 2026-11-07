@@ -9,6 +9,11 @@ services:
       ROUTER_PASS: ${ROUTER_PASS:-}
       WEBHOOK_HOST: 0.0.0.0
       WEBHOOK_PORT: 8000
+      # The bot reads the Quick Tunnel hostname from cloudflared's metrics
+      # endpoint and (re)registers its Webex webhook automatically.
+      # Set PUBLIC_URL instead to use a fixed https:// URL.
+      TUNNEL_METRICS_URL: ${TUNNEL_METRICS_URL:-http://tunnel:2000}
+      PUBLIC_URL: ${PUBLIC_URL:-}
     ports:
       - "127.0.0.1:${HOST_PORT:-8000}:8000"
     restart: unless-stopped
@@ -22,3 +27,19 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+
+  # Cloudflare Quick Tunnel: free public HTTPS URL, no account needed.
+  # A new hostname is issued on every restart; the webhook service
+  # re-registers the Webex webhook when it changes.
+  tunnel:
+    image: cloudflare/cloudflared:2025.9.1
+    command:
+      - tunnel
+      - --no-autoupdate
+      - --metrics
+      - 0.0.0.0:2000
+      - --url
+      - http://webhook:8000
+    depends_on:
+      - webhook
+    restart: unless-stopped

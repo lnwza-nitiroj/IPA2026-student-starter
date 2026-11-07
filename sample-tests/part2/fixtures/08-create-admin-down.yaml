@@ -1,0 +1,7 @@
+desired:
+  name: Loopback808
+  ipv4: 198.51.100.8/32
+  description: created-down
+  admin_state: down
+
+current: null
